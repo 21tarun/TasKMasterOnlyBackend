@@ -93,7 +93,7 @@ const getProjectOnMembers=async function(req,res){
     if(!data.email) return res.status(400).send({status:false,message:"email is required"})
     if (!validator.isEmail(data.email)) return res.status(400).send({ status: false, message: "please enter valid email address!" })
 
-    let projects=await projectModel.find({ members: [data.email] })
+    let projects=await projectModel.find({ members: { $in: [data.email] }})
 
     res.status(200).send({status:true,message:"data fetched successfully",data:projects})
 
@@ -131,23 +131,23 @@ const addMember =async function(req,res){
 
     if(project.userId!=data.userId)return res.status(403).send({status:false,message:"you can not add members to in this project"})
 
-    let projectLink=`http://localhost:3000/project/${data.projectId}`
+//     let projectLink=`http://localhost:3000/project/${data.projectId}`
 
-    var mailOptions = {
-        from: 'Task Master',
-        to: data.email,
-        subject: 'Task Master',
-        text: `join my project ${projectLink}`
-      };
+//     var mailOptions = {
+//         from: 'Task Master',
+//         to: data.email,
+//         subject: 'Task Master',
+//         text: `join my project ${projectLink}`
+//       };
 
 
-      transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      });
+//       transporter.sendMail(mailOptions, function(error, info){
+//         if (error) {
+//           console.log(error);
+//         } else {
+//           console.log('Email sent: ' + info.response);
+//         }
+//       });
 
 
 
